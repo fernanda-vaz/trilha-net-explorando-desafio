@@ -1,25 +1,61 @@
 ﻿using System.Text;
 using DesafioProjetoHospedagem.Models;
 
-Console.OutputEncoding = Encoding.UTF8;
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-// Cria os modelos de hóspedes e cadastra na lista de hóspedes
-List<Pessoa> hospedes = new List<Pessoa>();
+string tipo = "";
+int capacidade = 0;
+decimal valorDiaria = 0;
 
-Pessoa p1 = new Pessoa(nome: "Hóspede 1");
-Pessoa p2 = new Pessoa(nome: "Hóspede 2");
+Console.WriteLine("Seja bem vindo ao sistema de hospedagem!\n" + "Vamos cadastrar uma suíte!\n" + "Digite o tipo de suíte que deseja cadastrar:");
+tipo = Console.ReadLine();
 
-hospedes.Add(p1);
-hospedes.Add(p2);
+Console.WriteLine("Digite a capacidade da suíte:");
+capacidade = Convert.ToInt32(Console.ReadLine());
 
-// Cria a suíte
-Suite suite = new Suite(tipoSuite: "Premium", capacidade: 2, valorDiaria: 30);
+Console.WriteLine("Agora digite o valor da diária:");
+valorDiaria = Convert.ToDecimal(Console.ReadLine());
 
-// Cria uma nova reserva, passando a suíte e os hóspedes
-Reserva reserva = new Reserva(diasReservados: 5);
-reserva.CadastrarSuite(suite);
-reserva.CadastrarHospedes(hospedes);
+Reserva res = new Reserva(tipo, capacidade, valorDiaria);
 
-// Exibe a quantidade de hóspedes e o valor da diária
-Console.WriteLine($"Hóspedes: {reserva.ObterQuantidadeHospedes()}");
-Console.WriteLine($"Valor diária: {reserva.CalcularValorDiaria()}");
+res.CadastrarSuite();
+
+string opcao = string.Empty;
+bool exibirMenu = true;
+
+while (exibirMenu)
+{
+    Console.Clear();
+    Console.WriteLine("Digite a sua opção:");
+    Console.WriteLine("1 - Cadastrar hóspede");
+    Console.WriteLine("2 - Listar quantidade de hóspedes");
+    Console.WriteLine("3 - Calcular valor da reserva");
+    Console.WriteLine("4 - Encerrar");
+
+    switch (Console.ReadLine())
+    {
+        case "1":
+            res.CadastrarHospedes();
+            break;
+
+        case "2":
+            res.ObterQuantidadeHospedes();
+            break;
+
+        case "3":
+            res.CalcularValorDiaria();
+            break;
+        case "4":
+            exibirMenu = false;
+            break;
+
+        default:
+            Console.WriteLine("Opção inválida");
+            break;
+    }
+
+    Console.WriteLine("Pressione uma tecla para continuar:");
+    Console.ReadLine();
+}
+
+Console.WriteLine("O programa se encerrou.");
